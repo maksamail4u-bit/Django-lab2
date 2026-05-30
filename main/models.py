@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 
 
 class Customer(models.Model):
-    """Модель покупателя"""
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     first_name = models.CharField(max_length=100, verbose_name="Имя")
     last_name = models.CharField(max_length=100, verbose_name="Фамилия")
@@ -15,7 +14,6 @@ class Customer(models.Model):
 
 
 class Product(models.Model):
-    """Модель товара"""
     name = models.CharField(max_length=200, verbose_name="Название")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
     category = models.CharField(max_length=100, verbose_name="Категория")
@@ -58,11 +56,9 @@ class Cart(models.Model):
         return f"Корзина №{self.id} - {self.customer}"
     
     def total_price(self):
-        """Общая стоимость корзины"""
         return sum(item.product.price * item.quantity for item in self.items.all())
 
     def items_count(self):
-        """Количество товаров в корзине"""
         return self.items.count()
 
     total_price.short_description = "Общая стоимость"
