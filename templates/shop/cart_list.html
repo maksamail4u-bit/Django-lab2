@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    
+    <link rel="stylesheet" href="{% static 'shop/css/cart_style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="page-title">{{ title }}</h1>
+        
+        <div class="carts-grid">
+            {% for cart in carts %}
+            <div class="cart-card">
+
+                <div class="cart-header">
+                    <span class="cart-id">Корзина #{{ cart.id }}</span>
+                    <span class="status-badge status-{{ cart.status }}">
+                        {{ cart.get_status_display }}
+                    </span>
+                </div>
+                
+
+                <div class="customer-info">
+                    <div class="customer-name">
+                        👤 {{ cart.customer.first_name }} {{ cart.customer.last_name }}
+                    </div>
+                    <div class="customer-details">
+                        <span>📧 {{ cart.customer.email }}</span>
+                    </div>
+                </div>
+                
+                <div class="products-section">
+                    <div class="products-title">
+                        📦 Товары ({{ cart.items_count }}):
+                    </div>
+                    
+                    {% if cart.items.all %}
+                    <ul class="product-list">
+                        {% for item in cart.items.all %}
+                        <li class="product-item">
+                            <span class="product-name">{{ item.product.name }}</span>
+                            <span class="product-details">
+                                <span class="product-price">{{ item.product.price }} руб.</span>
+                                <span class="product-quantity">× {{ item.quantity }} шт.</span>
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <div class="no-products">Нет товаров</div>
+                    {% endif %}
+                </div>
+                
+                <div class="cart-footer">
+                    <span class="total-price">
+                        {{ cart.total_price|floatformat:2 }} руб.
+                    </span>
+                    <div class="cart-dates">
+                        <div>Создана: {{ cart.created_at|date:"d.m.Y H:i" }}</div>
+                        <div>Обновлена: {{ cart.updated_at|date:"d.m.Y H:i" }}</div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="empty-message">
+                <div class="empty-icon">🛒</div>
+                <div class="empty-text">Корзины не найдены</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
