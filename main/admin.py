@@ -23,7 +23,7 @@ class CustomerAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    search_fields = ['name', 'description', 'category']
+    search_fields = ['name', 'category']
     list_filter = ['category', 'created_at']
 
 
