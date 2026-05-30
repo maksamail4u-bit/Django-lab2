@@ -7,7 +7,6 @@ class CartListView(ListView):
     model = Cart
     template_name = 'shop/cart_list.html'
     context_object_name = 'carts'
-    paginate_by = 10
 
     def get_queryset(self):
         return Cart.objects.select_related('customer').prefetch_related(
